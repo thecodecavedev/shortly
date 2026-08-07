@@ -5,17 +5,16 @@ app = Flask(__name__)
 
 connect = sqlite3.connect('database.db')
 connect.execute('''
-                CREATE TABLE IF NOT EXISTS URLS(
-                    id TEXT NOT NULL,
-                    shortly TEXT NOT NULL,
-                    url TEXT NOT NULL,
-                )
-                
-                ''')
+    CREATE TABLE IF NOT EXISTS URLS(
+    id TEXT NOT NULL,
+    shortly TEXT NOT NULL,
+    url TEXT NOT NULL
+    )        
+    ''')
 
 def shorten_link(url_: str, server_url: str)->str:
     id = random.randint(1000000,9999999)
-    short_url = f"{server_url}/short.ly/{id}"
+    short_url = f"{server_url}short.ly/{id}"
     
     with sqlite3.connect('database.db') as conn:
         cursor = conn.cursor()
@@ -27,8 +26,11 @@ def shorten_link(url_: str, server_url: str)->str:
 def get_original_url(id: int)-> str:
     with sqlite3.connect('database.db') as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT url FROM URLS WHERE id=?",(str(id)))
-        url = cursor.fetchone()
+        cursor.execute("SELECT url FROM URLS WHERE id=?",(str(id),))
+        data = cursor.fetchone()
+        print(data[0])
+        url = data[0]
+        
     return url
         
 
@@ -44,7 +46,7 @@ def shorten():
     
     return jsonify(status = "success",message = shortly_link)
 
-@app.route('/<int:url_id>')
+@app.route('/short.ly/<int:url_id>')
 def shortly(url_id):
     url = get_original_url(url_id)
     if url == None:

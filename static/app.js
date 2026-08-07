@@ -1,4 +1,6 @@
 let form = document.getElementById("form");
+let copy_button = document.getElementById("copy_button");
+let url = ""
 
 form.addEventListener('submit', function(e){
     e.preventDefault()
@@ -8,9 +10,17 @@ form.addEventListener('submit', function(e){
     }).then(response => response.json()
 )
     .then(data=>{
-        console.log(data);
+        copy_button.style.display = "block";
+        url = data.message
         document.getElementById('shortly').innerText = data.message;
     })
+}
+
+)
+
+copy_button.addEventListener("click", function(e){
+    navigator.clipboard.writeText(url);
+    alert("url copied to clipboard: "+url)
 }
 
 )
