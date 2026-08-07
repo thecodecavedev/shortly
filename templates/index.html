@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <title>short.ly</title>
+</head>
+<body>
+    <h1>Welcom to shortly</h1>
+    <form id="form">
+        <input type="text" name="url" id="url">
+        <button type="submit">shorten</button>
+    </form>
+    <div class="short_url">
+        <p id="shortly"></p>
+    </div>
+</body>
+<script src="{{url_for('static', filename='app.js')}}"></script>
+</html>
